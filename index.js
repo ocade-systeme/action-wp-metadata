@@ -106,11 +106,8 @@ const extractVersionComment = (indexFile) => {
 * @Description Extraction de la version si possible du package.json sinon du fichier d'index 
  */
 const extractVersion = (indexFile) => {
-  try {
-    return extractVersionPackageJson(indexFile);
-  } catch (e) {
-    return extractVersionComment(indexFile);
-  }
+  if (indexFile === "./package.json") return extractVersionPackageJson(indexFile);
+  else return extractVersionComment(indexFile);
 };
 
 /**
@@ -172,7 +169,6 @@ const RunVersionning = (indexFile=false) => {
 
 try {
   if ((core.getInput('indexFile') === "") || (core.getInput('indexFile') === "style.css")) {
-    console.log("ici")
     RunVersionning();
   } else {
     RunVersionning(core.getInput('indexFile'));
